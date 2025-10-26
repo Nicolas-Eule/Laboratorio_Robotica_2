@@ -155,18 +155,143 @@ Este repositorio implementa el **Laboratorio No. 2** de *Robótica Industrial 
 
 ---
 
-## 🎛️ Movimientos manuales (Teach)
+## Procedimiento detallado de movimientos manuales (articular ↔ cartesiano; traslaciones/rotaciones X‑Y‑Z)
 
-1. Pasar a **Teach** y habilitar **servo ON / deadman**.  
-2. Elegir **sistema de coordenadas**:  
-   - **Articular** (ejes): **S±, L±, U±, R±, B±, T±**.  
-   - **Cartesiano** (TCP): **X±, Y±, Z±** (traslaciones) y **R±, B±, T±** (rotaciones).  
-3. Ajustar **velocidad de enseñanza** con potenciómetro/teclas.  
-4. Cambiar entre **Articular ⇄ Cartesiano** desde el panel (modo de movimiento).  
-5. Verificar **estado en pantalla**: modo, velocidad, coordenadas, alarmas.  
-6. Mantener **zona segura** despejada y seguir el **procedimiento de emergencia**.
+**Objetivo.** Ejecutar enseñanza segura y precisa, dominando cambio de modos de jog, selección de marcos y ejes cartesianos/angulares.
 
-**Niveles de velocidad**: rango de **0,01 % a 100 %** de la velocidad máxima (mostrar el valor en pantalla).
+**Secuencia recomendada (Teach Pendant):**
+1. **Estado seguro.**
+   - Robot en Teach, área despejada, paro de emergencia probado, servo OFF.
+   - Selecciona herramienta correcta (TCP) y sistema de coordenadas base/celda.
+2. **Modo de jog.**
+   - **Articular (JOINT/JOG J1…J6):** cada tecla mueve un eje. Útil para desenganchar singularidades, plegar/desplegar y aproximaciones gruesas.
+   - **Cartesiano (XYZ / Rx Ry Rz):**
+     - **Traslaciones:** X, Y, Z del marco activo (BASE, USER/FRAME, o TOOL).
+     - **Rotaciones:** Rx, Ry, Rz son rotaciones alrededor de los ejes X, Y, Z del marco activo.
+   - Cambia entre **BASE/USER/TOOL** según necesites: BASE para desplazamientos globales, USER/FRAME para trayectorias en dispositivos, TOOL para orientar la herramienta sin modificar posición del TCP.
+3. **Transición articular → cartesiano.**
+   - Desplaza en articular hasta una postura sin riesgos (evitar toques mecánicos y límites).
+   - Pasa a cartesiano y **acércate en Z** del marco de trabajo, luego corrige en X/Y y finalmente afina orientación con Rx/Ry/Rz.
+4. **Transición cartesiano → articular.**
+   - Cuando detectes cercanía a singularidades (p. ej., muñeca con J5≈0°), vuelve a articular para reorientar, y regresa a cartesiano.
+5. **Buenas prácticas.**
+   - Trabajo cerca de pieza: prioriza **Z** para aproximar/retirar. Mantén **blend = 0** al enseñar puntos críticos.
+   - Guarda posiciones como **Targets** con nombres semánticos (APROX_, PUNTO_, RETIRO_). Documenta marco y herramienta usados.
+   - Comprueba límites articulares y de velocidad antes de ejecutar en AUTO.
+
+
+## Niveles de velocidad para enseñanza y cómo identificarlos en interfaz
+
+**Conceptos.**
+- **Jog speed (Teach):** velocidad manual al mantener pulsada la tecla. Suele tener niveles/fine-tuning.
+- **Override de reproducción (Play):** porcentaje que escala velocidades de programa cuando “corres” un Job.
+
+**Guía práctica en controladores Motoman (DX100/DX200/YRC1000, nomenclatura típica):**
+- **TEACH/JOG:** niveles **Lento / Medio / Rápido** (o “Fine/Coarse”) con ajuste incremental. Usa **Lento (1–20 mm/s)** en proximidad de interferencias; **Medio (20–150 mm/s)** para desplazamientos libres; **Rápido (150–300+ mm/s)** solo en aire y con visibilidad.
+- **PLAY:** **Speed Override** en % (p. ej., 5–100%). Para primeras pruebas, inicia en **5–10%** y sube gradualmente.
+- **Indicadores en el HMI/Pendant:**
+  - Barra de estado con **sistema de coordenadas activo** (BASE/USER/TOOL), **modo JOG** (JNT/XYZ/RxRyRz), y **velocidad** visible como **Teach Speed** o **Override %**.
+  - Iconos/teclas dedicadas para cambiar **Fine/Coarse** y **SPEED OVERRIDE**. Verifica que el **servo ON** esté habilitado y que **REMOTE/LOCAL** sea coherente con tu procedimiento.
+- **Criterio de aceptación para enseñanza:**
+  1) Ningún eje supera límites ni zonas definidas de seguridad.
+  2) En targets de precisión, captura con **Teach Speed baja** y **rotaciones Rx/Ry/Rz finas**.
+  3) Repite el movimiento con **Override bajo** y confirma tiempos y clearances.
+
+
+## Funcionalidades de RoboDK y método de comunicación con Motoman (con Python)
+
+**Capacidades relevantes de RoboDK para esta célula:**
+- **Programación offline (OLP)** multi‑marca: definición de marcos, herramientas, detección de colisiones, generación de trayectorias sobre superficies.
+- **APIs** (Python/C#/C++/Matlab/Java) para automatizar importaciones CAD, cálculo de poses y post‑procesado a código de robot.
+- **Drivers online**: conexión directa por Ethernet a controladores soportados para ejecutar movimientos desde la simulación (jog/MoveJ/MoveL) y verificar I/O básicas.
+- **Postprocesadores Motoman**: exportación de **Jobs .JBI** listos para cargar por **USB/FTP** en el controlador.
+
+**Formas de conexión Motoman ↔ RoboDK:**
+1. **Online (Driver de RoboDK, Ethernet).**
+   - Requisitos: IP del controlador, robot en **REMOTE**, permisos habilitados, servo listo. En RoboDK: clic derecho sobre el robot → **Conectar al robot** → configura IP → **Conectar**.
+   - Ventaja: pruebas inmediatas de trayectorias, verificación de frames y TCP en vivo.
+2. **Offline + Transferencia de programas (.JBI).**
+   - En RoboDK: **Program → Generate Program** usando el postprocesador Motoman. Transfiere por **USB** o **FTP** al controlador y ejecuta desde el pendant.
+   - Ventaja: no requiere enlace en vivo; ideal para entornos sin red industrial abierta.
+3. **API externa → RoboDK → Robot.**
+   - Un script externo en Python controla RoboDK vía API; RoboDK, a su vez, maneja el robot por driver o genera .JBI. Útil para flujos de **automatización** e integración con software de proceso.
+
+**Dónde y cómo pegar código Python en RoboDK:**
+- Opción A: en RoboDK, **Station → Add → Python Program**. Abre el editor integrado, pega el script y ejecuta con el botón **Run**.
+- Opción B: **Tools → Run Script** y selecciona tu `.py`.
+- Opción C (externo): instala `robodk` (`pip install robodk`), mantén RoboDK abierto y ejecuta tu script desde la terminal/IDE. El script se conecta a la instancia activa de RoboDK.
+
+**Ejemplo de script (conexión, selección de robot, frames y figura “rosa polar”)**
+
+> Este script fue proporcionado por los docentes de la asignatura como ejemplo de aprendizaje, en el se asume que ya configuraste la IP del robot en el ítem de robot dentro de RoboDK y que el controlador está en **REMOTE**. El flujo es: API Python → RoboDK → Driver Motoman → Robot.
+
+```python
+from robodk.robolink import *    # API para RoboDK
+from robodk.robomath import *    # Funciones matemáticas
+import math
+
+# 1) Abrir conexión con RoboDK e inicializar
+RDK = Robolink()
+
+# Elegir un robot (si hay varios)
+robot = RDK.ItemUserPick("Selecciona un robot", ITEM_TYPE_ROBOT)
+if not robot.Valid():
+    raise Exception("No se ha seleccionado un robot válido.")
+
+# 2) Conexión online al robot físico (IP configurada en el ítem del robot)
+print("Conectando al robot...")
+if not robot.Connect():
+    raise Exception("No se pudo conectar. Verifica REMOTE en el controlador, IP/puerto y permisos.")
+
+if not robot.ConnectedState():
+    raise Exception("Conexión no establecida. Revisa el driver y la red.")
+
+print("Robot conectado correctamente.")
+
+# 3) Selección de frame y herramienta
+frame_name = "Frame_from_Target1"   # Ajusta el nombre al de tu estación
+frame = RDK.Item(frame_name, ITEM_TYPE_FRAME)
+if not frame.Valid():
+    raise Exception(f'No se encontró el Frame "{frame_name}".')
+
+robot.setPoseFrame(frame)           # Trabajar en el marco seleccionado
+robot.setPoseTool(robot.PoseTool()) # Usa la herramienta activa
+
+# 4) Parámetros de velocidad y suavizado
+robot.setSpeed(300)   # mm/s (enseñanza/validación; ajusta según tu política)
+robot.setRounding(5)  # mm de blend (0 para esquinas agudas)
+
+# 5) Parámetros de la rosa polar r = A*sin(k*θ)
+num_points = 720
+A = 150          # mm
+k = 5            # pétalos (si k impar → k pétalos; si par → 2k)
+z_surface = 0    # Plano de trabajo Z=0 del frame
+z_safe = 50      # Altura segura
+
+# 6) Aproximación al centro en altura segura
+robot.MoveJ(transl(0, 0, z_surface + z_safe))
+robot.MoveL(transl(0, 0, z_surface))
+
+# 7) Trazado de la figura
+full_turn = 2*math.pi
+for i in range(num_points + 1):
+    t = i / num_points
+    theta = full_turn * t
+    r = A * math.sin(k * theta)
+    x = r * math.cos(theta)
+    y = r * math.sin(theta)
+    robot.MoveL(transl(x, y, z_surface))
+
+# 8) Salida segura
+robot.MoveL(transl(x, y, z_surface + z_safe))
+print(f"Figura completada en el frame '{frame_name}'.")
+```
+
+**Notas operativas y variantes de conexión:**
+- **Driver configurado en el ítem del robot:** clic derecho sobre el robot en RoboDK → **Conectar al robot** → define **IP/puerto**. El script `robot.Connect()` reutiliza esa configuración.
+- **Solo offline:** omite `robot.Connect()` y usa RoboDK para **generar .JBI**; transfiere por USB/FTP.
+- **Pruebas sin hardware:** si no hay controlador, el script simula sobre el modelo de RoboDK; valida colisiones y alcance, luego exporta a .JBI.
+- **Seguridad:** activa límites, zonas y reduce `setSpeed` y `setRounding` durante primeras pruebas. Nunca ejecutes online sin barreras y sin consenso del equipo de seguridad.
 
 ---
 
