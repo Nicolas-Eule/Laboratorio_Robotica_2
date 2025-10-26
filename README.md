@@ -182,11 +182,118 @@ Este repositorio implementa el **Laboratorio No. 2** de *Robótica Industrial 
 
 ---
 
-## 🆚 RoboDK vs RobotStudio (resumen)
+## 🆚 RoboDK vs RobotStudio
 
-- **RoboDK**: multi‑marca, post‑procesadores, drivers online, costo accesible, ideal para **proyectos con varias marcas**.  
-- **RobotStudio (ABB)**: emulación **FlexPendant**, herramientas avanzadas sobre superficies, entorno **RAPID** de alta fidelidad; ideal para **ABB**.  
-- Elección según **ecosistema** (multi‑marca vs ABB), **presupuesto** y **fidelidad** de emulación requerida.
+Propósito
+---------
+Comparar con criterio de ingeniería dos ecosistemas de programación y simulación de robots industriales: RoboDK (multimarca) y RobotStudio (ABB). El objetivo es orientar decisiones de selección, planeación de celdas y preparación de procesos (OLP, commissioning y soporte en planta).
+
+1) Arquitectura y fidelidad de simulación
+-----------------------------------------
+• RoboDK
+  - Motor cinemático propio y modelos de robots de múltiples fabricantes. 
+  - Foco en Programación Offline (OLP), postprocesadores por marca/controlador y drivers “online” para pruebas en tiempo real.
+  - Fidelidad “control‑agnostic”: muy buena para cinemática, envolventes, colisiones y orientación herramienta; la exactitud temporal y de microcomandos depende del postprocesado y del driver.
+• RobotStudio (ABB)
+  - Incluye Virtual Controller (VC) con firmware de ABB (RobotWare). Emula RAPID, planificador de movimiento, parámetros del sistema y FlexPendant virtual.
+  - Fidelidad alta para robots ABB: tiempos de ciclo, zonas de blend, eventos, E/S lógicas y MultiMove se comportan casi 1:1 respecto a la celda real.
+Implicación práctica: si tu célula es 100% ABB y necesitas pre‑comisionar con máxima fidelidad, RobotStudio domina. Si trabajas con marcas mixtas o cambias de robot a menudo, RoboDK ofrece mayor versatilidad.
+
+2) Lenguajes, programación y APIs
+---------------------------------
+• RoboDK
+  - Scripting/API: Python, C#, C++, Matlab, Java. Automatización de importación CAD/CAM, generación de trayectorias, cálculo de poses, simulación y exportación.
+  - Postprocesadores: genera código específico (p.ej., RAPID, KRL, TP, JBI, INFORM, etc.) ajustable a estándares de planta.
+  - Macros para rutinas de calibración, cambio de herramienta, “Machining” 3‑5 ejes, pick&place y lógica de celda básica.
+• RobotStudio (ABB)
+  - Programación nativa en RAPID, módulos y tareas del sistema; edición con IntelliSense, depuración y ejecución paso a paso sobre el VC.
+  - FlexPendant virtual y herramientas para Smart Components, Path Editor, MultiMove, SafeMove (configuración), I/O simuladas y captura de eventos.
+  - SDK y complementos especializados (PowerPacs) para soldadura, mecanizado, machine tending, paletizado, etc.
+Resumen: RoboDK destaca por la orquestación programática y el soporte multi‑lenguaje; RobotStudio por el ecosistema RAPID y el ciclo de vida completo ABB (desde diseño a mantenimiento).
+
+3) Soporte de marcas y ecosistema
+---------------------------------
+• RoboDK: librería amplia de robots, controladores y herramientas de múltiples fabricantes. Ideal para integradores, universidades y celdas donde cambian marcas o modelos.
+• RobotStudio: centrado en ABB con integración profunda a características de controlador (MultiMove, EGM, SafeMove, LoadIdentify, etc.).
+
+4) Trayectorias, superficies y procesos
+--------------------------------------
+• RoboDK
+  - Importa CAD/CAM (STEP/IGES/DXF, etc.) y genera trayectorias “path‑on‑surface”, tool orientation controlada, offsets y blends.
+  - Plugins de mecanizado 3‑5 ejes y utilidades para evitar singularidades, límites articulares y colisiones.
+• RobotStudio
+  - Path Editor avanzado, creación de targets sobre geometría, ajuste fino de zonas y velocidades reales del controlador.
+  - PowerPacs específicos por proceso (soldadura, corte, lijado, paletizado) con plantillas de mejores prácticas ABB.
+Conclusión: ambos resuelven “path sobre superficie”; RobotStudio ofrece ajuste fino con semántica del controlador ABB; RoboDK es flexible para múltiples marcas y CAM‑like workflows.
+
+5) Online, I/O y pre‑comisionamiento
+------------------------------------
+• RoboDK
+  - Drivers online para ejecutar y testear en robots reales de varias marcas; utilidad para verificación de poses, orientaciones e I/O simples.
+  - La lógica compleja de célula suele residir en PLC/robot y se valida en campo.
+• RobotStudio
+  - Virtual Controller con E/S lógicas, tareas, eventos y emulación de FlexPendant. Permite probar secuencias, handshakes y MultiMove antes del hardware.
+Moraleja: para “dry‑run” de una célula ABB, RobotStudio reduce horas de puesta en marcha. Para verificación general y prototipos multi‑marca, RoboDK es rápido y suficiente.
+
+6) Calibración y precisión
+--------------------------
+• RoboDK: herramientas para identificar TCP, base, calib. de herramienta y celda; mejora repetibilidad de OLP con medición externa cuando está disponible.
+• RobotStudio (ABB): flujo nativo con utilidades ABB (p.ej., LoadIdentify, tuneo de trayectorias, definición exacta de cinemática y sistemas de coordenadas) y servicios de calibración de fabricante.
+Idea clave: la precisión absoluta depende de la calibración mecánica y los parámetros reales del robot. RoboDK y RobotStudio soportan esos flujos en distinto grado; con ABB, RobotStudio capitaliza parámetros del propio controlador.
+
+7) Integración con PLC/OT y datos
+---------------------------------
+• RoboDK: scripting y drivers para triggers, estados y E/S básicas; para fieldbuses y OPC UA suele considerarse la capa de PLC/controlador real.
+• RobotStudio: simula E/S lógicas del sistema ABB. Para buses industriales, la verificación completa es en hardware, pero la lógica RAPID se depura en el VC.
+
+8) Licenciamiento y costos (orientativo)
+----------------------------------------
+• RoboDK: coste inicial accesible, licencias perpetuas o suscripción, descuentos académicos, módulos adicionales (p.ej., machining).
+• RobotStudio: versión base gratuita con limitaciones; licencias de VC y PowerPacs de costo corporativo; típicamente más alto que RoboDK, pero con retorno si la planta es ABB‑centrica.
+
+9) Curva de aprendizaje y operación
+-----------------------------------
+• RoboDK: curva suave para OLP genérica, scripting claro y documentación práctica. Requiere entender postprocesadores por marca.
+• RobotStudio: requiere familiaridad con RAPID y conceptos del sistema ABB. A cambio, ofrece depuración y análisis con fidelidad de controlador.
+
+10) Casos de uso recomendados
+-----------------------------
+• Elige RoboDK cuando:
+  - Tienes múltiples marcas de robot en la planta o en el laboratorio.
+  - Tu foco es generar código y simular rápido, con APIs para automatizar y estandarizar OLP.
+  - Necesitas integrar flujos CAD/CAM con cambios frecuentes de herramienta y orientación.
+• Elige RobotStudio cuando:
+  - La célula es ABB, requieres tiempos de ciclo realistas, MultiMove, SafeMove y pruebas de lógica antes del hardware.
+  - Quieres depurar RAPID, mapear I/O, validar zonas y hacer pre‑comisionamiento en alto detalle.
+
+11) Matriz de decisión rápida
+-----------------------------
+• ¿Ecosistema?: Multi‑marca → RoboDK | Solo ABB → RobotStudio.
+• ¿Fidelidad de controlador y tiempos de ciclo?: Alta prioridad → RobotStudio | Media → RoboDK.
+• ¿Budget inicial?: Bajo/medio → RoboDK | Medio/alto corporativo → RobotStudio.
+• ¿Automatización por scripting multi‑lenguaje?: RoboDK sobresale.
+• ¿RAPID y Virtual Controller con FlexPendant?: RobotStudio.
+
+12) Buenas prácticas (aplican a ambos)
+--------------------------------------
+1. Calibra TCP y bases; usa fixtures de referencia.
+2. Mantén una librería controlada de postprocesadores y plantillas por célula.
+3. Define tolerancias de orientación y blending realistas; valida singularidades.
+4. Versiona estaciones/proyectos y congela parámetros antes de comisionar.
+5. Ejecuta pilotos en vacío y dry‑runs con límites de seguridad conservadores.
+6. Documenta offsets, sistemas de coordenadas y cambios de herramienta en un único “dossier de celda”.
+
+13) Limitaciones y riesgos frecuentes
+-------------------------------------
+• Diferencias entre simulación y planta por fricción, carga real, flexibilidad y holguras.
+• Captura parcial de lógicas de seguridad y fieldbuses complejos en simulación.
+• Exceso de confianza en tiempos de ciclo sin considerar periféricos y PLC.
+• Postprocesadores desalineados con convenciones de fábrica → retrabajo en piso.
+
+Conclusión
+----------
+RoboDK maximiza versatilidad y automatización multi‑marca con OLP ágil y APIs potentes. RobotStudio maximiza fidelidad y productividad dentro del universo ABB al ofrecer un gemelo virtual de alto detalle. La elección racional depende de tu ecosistema, del nivel de realismo requerido antes de tocar hardware y del presupuesto total de la célula.
+
 
 ---
 
