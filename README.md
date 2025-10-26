@@ -146,10 +146,10 @@ Este repositorio implementa el **Laboratorio No. 2** de *Robótica Industrial 
 ## 🏠 Home1 vs Home2 (Motoman MH6)
 
 - **home1**: postura base/neutral de referencia (U horizontal, R vertical). Facilita la **referencia de inicio** y verificaciones rápidas.
-  ![Home 1](https://github.com/user-attachments/assets/ee4ff3e6-f237-478f-8490-ef7bebcbd49e)
+  ![Home 1](https://github.com/user-attachments/assets/e92957dd-9720-4434-ab57-77ba89957654)
 
 - **home2**: postura elevada/retraída para **mantenimiento/cambio de herramienta** y tránsito seguro.
-  ![Home 2](https://github.com/user-attachments/assets/df316bf0-d309-4a22-98a7-22e081ed1289)
+ ![Home 2](https://github.com/user-attachments/assets/6b8ff6a6-8e50-4fdd-bf1b-c4c8c9c53c44)
 
 - **Elección**: usar **home1** para inicio/fin de ciclo y **home2** como aparcamiento/mantenimiento; justificar según layout y seguridad.
 
