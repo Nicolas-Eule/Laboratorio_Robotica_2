@@ -309,12 +309,3 @@ RoboDK maximiza versatilidad y automatización multi‑marca con OLP ágil y API
 
 ---
 
-#
-## ✍️ Créditos y licencia
-
-- Elaborado por: *Equipo del curso Robótica Industrial 2025‑II*.  
-- Licencia sugerida: **MIT** o **CC‑BY‑4.0** (según necesidad).
-
----
-
-> Si reutilizas este README para tu equipo, **recuerda actualizar** nombres, enlaces de videos y capturas de tu propia estación.
