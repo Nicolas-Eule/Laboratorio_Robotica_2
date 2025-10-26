@@ -111,16 +111,35 @@ Este repositorio implementa el **Laboratorio No. 2** de *Robótica Industrial 
 
 ## 📊 Cuadro comparativo (MH6 vs IRB140)
 
-| Característica | Motoman MH6 | ABB IRB140 |
-|---|---:|---:|
-| **Carga útil [kg]** | 6 | 6 |
-| **Alcance [mm]** | 1422 | 810 |
-| **Grados de libertad** | 6 | 6 |
-| **Repetibilidad [mm]** | ±0.08 | ±0.03 |
-| **Peso aprox. [kg]** | 130 | 98 |
-| **Aplicaciones típicas** | soldadura, pick & place, paletizado | ensamblaje, embalaje, mecanizado ligero |
-
-> **Nota**: Los valores se emplean con fines académicos en este laboratorio (consultar hojas de datos oficiales según el equipo real disponible).
+| Característica | Motoman MH6 | ABB IRB140 |
+|---|---|---|
+| **Fabricante** | YASKAWA | ABB |
+| **Controlador** | DX100 | IRC5 con RobotWare |
+| **Estructura** | Robot articulado | Robot articulado |
+| **DOF** | 6 (8 con riel suelo + eje adicional) | 6 |
+| **Payload [kg]** | 6 | 6 |
+| **Radio de trabajo [mm]** | 1422 | 800 |
+| **Repetibilidad [mm]** | ±0,08 | ±0,03 |
+| **Peso del manipulador [kg]** | 130 | 98 |
+| **Montajes permitidos** | Suelo • Muro • Suspendido | Suelo • Muro • Suspendido |
+| **Movimiento angular S:1** | ±170° | ±180° |
+| **Movimiento angular L:2** | +155°/–90° | +110°/–90° |
+| **Movimiento angular U:3** | +250°/–175° | +50°/–230° |
+| **Movimiento angular R:4** | ±180° | ±200° (hasta ±165 rev) |
+| **Movimiento angular B:5** | +225°/–45° | ±115° |
+| **Movimiento angular T:6** | ±360° | ±400° (hasta ±163 rev) |
+| **Velocidad máx. S:1 (°/s)** | 220 | 200 |
+| **Velocidad máx. L:2 (°/s)** | 200 | 200 |
+| **Velocidad máx. U:3 (°/s)** | 220 | 260 |
+| **Velocidad máx. R:4 (°/s)** | 410 | 360 |
+| **Velocidad máx. B:5 (°/s)** | 410 | 360 |
+| **Velocidad máx. T:6 (°/s)** | 610 | 450 |
+| **Aceleración máx. TCP** | — | 57 m/s² (movimiento controlado) |
+| **Nivel de protección (IP)** | — | IP67 (hasta muñeca) |
+| **Temperatura de operación [°C]** | 0 a +45 | +5 a +45 |
+| **Humedad relativa de operación [%]** | 20–80 | ≤95 (sin condensación) |
+| **Consumo de potencia** | 1,5 kVA (promedio) | 0,44 kW a 1000 mm/s |
+| **Aplicaciones típicas** | Manipulación, alimentación de máquinas, ensamblaje, soldadura, dispensado, empaquetado | Manejo de materiales, ensamblaje, fundición (Foundry Plus 2), clean room, soldadura, pegado |
 
 ---
 
