@@ -15,7 +15,7 @@
 
 <!-- Línea de texto mecanografiado (animado) -->
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=3000&size=20&pause=1500&duration=3500&color=00E5FF&center=true&vCenter=true&lines=Rob%C3%B3tica+Industrial+2025%E2%80%93II;Motoman+MH6+%E2%80%A2+RoboDK+%E2%80%A2+RobotStudio;Comparaci%C3%B3n+de+manipuladores+y+trayectoria+polar" alt="typing">
+  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=3000&size=20&pause=1500&duration=3500&color=00E5FF&center=true&vCenter=true&lines=Rob%C3%B3tica+Industrial+2025%E2%80%93II;Motoman+MH6+%E2%80%A2+RoboDK+%E2%80%A2+RobotStudio;Comparación+de+manipuladores+y+trayectoria+polar" alt="typing">
 </p>
 
 ---
