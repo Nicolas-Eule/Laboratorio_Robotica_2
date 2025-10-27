@@ -1,4 +1,7 @@
-![Robodk](https://github.com/user-attachments/assets/22d2c19c-e174-446e-b82c-8880e2228238)<!-- ✦✦✦ FUTURE IS AUTOMATED ✦✦✦ -->
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/22d2c19c-e174-446e-b82c-8880e2228238">
+</p>
+<!-- ✦✦✦ FUTURE IS AUTOMATED ✦✦✦ -->
 <!-- Banner superior “neón” -->
 <p align="center">
   <!-- El banner se genera usando capsule-render con colores adaptados al Laboratorio 2 -->
