@@ -523,24 +523,224 @@ RoboDK maximiza versatilidad y automatización multi‑marca con OLP ágil y API
 
 ---
 
-## 🧭 Trayectoria polar y Nombres en RoboDK 
-### Flujograma de las trayectorias 
+# 🧭 Trayectoria polar y Nombres en RoboDK 
+## Flujograma de las trayectorias 
+Se presenta el diagrama de flujo del proceso desarrollado para garantizar el cumplimiento de los requerimientos del proyecto.
+
 <p align="center">
-  <img width="397" height="2300" alt="Diagrama" src="https://github.com/user-attachments/assets/b4754bc3-e62c-48e4-bc11-7b8817980d58" />
+  <img width="300" height="1800" alt="Diagrama" src="https://github.com/user-attachments/assets/b4754bc3-e62c-48e4-bc11-7b8817980d58" />
 </p>
-### Plano de planta 
+
+## Plano de planta 
+Se muestra el plano de planta del ecosistema de trabajo en RoboDK.
 <p align="center">
-![Planta](https://github.com/user-attachments/assets/16f26b22-483d-4d7d-af32-d7808ffc726a)
-   <img width="397" height="2300" alt="Diagrama" src="https://github.com/user-attachments/assets/16f26b22-483d-4d7d-af32-d7808ffc726a" />
+  <img width="800" alt="Diagrama" src="https://github.com/user-attachments/assets/16f26b22-483d-4d7d-af32-d7808ffc726a" />
 </p>
+
+
+#### Plano lateral
+Como visualizacion auxiliar se muestra un plano lateral del ecossistema en RoboDK, para tener mejor entendimiento de las posciones de cada elemento.
+
+<p align="center">   
+  <img width="397" height="2300" alt="Diagrama" src="https://github.com/user-attachments/assets/b1316eda-23ef-4b55-97e4-69671ab84608" />
 </p>
-### Codigo Python de trayectorias 
-### Simulacion de RoboDK
-### Implementacion en Motoman MH6
+
+## Codigo Python de trayectorias 
+A continuacion se presenta el codigo que se desarrollo para realizar las trayectorias de lo nombres de integrantes y figura en forma polar.
+```python
+vfrom robodk.robolink import *    # API para comunicarte con RoboDK
+from robodk.robomath import *    # Funciones matemáticas
+import math
+
+#------------------------------------------------
+# 1) Conexión a RoboDK e inicialización
+#------------------------------------------------
+RDK = Robolink()
+
+# Elegir un robot 
+robot = RDK.ItemUserPick("Selecciona un robot", ITEM_TYPE_ROBOT)
+if not robot.Valid():
+    raise Exception("No se ha seleccionado un robot válido.")
+
+# Conectar al robot físico
+#if not robot.Connect():
+#    raise Exception("No se pudo conectar al robot. Verifica que esté en modo remoto y que la configuración sea correcta.")
+
+# Confirmar conexión
+#if not robot.ConnectedState():
+#    raise Exception("El robot no está conectado correctamente. Revisa la conexión.")
+
+#print("Robot conectado correctamente.")
+
+#------------------------------------------------
+# 2) Cargar el Frame  donde quieres dibujar
+#------------------------------------------------
+frame_name = "Frame_from_Target1"
+frame = RDK.Item(frame_name, ITEM_TYPE_FRAME)
+if not frame.Valid():
+    raise Exception(f'No se encontró el Frame "{frame_name}" en la estación.')
+
+# Asignamos este frame al robot
+robot.setPoseFrame(frame)
+# Usamos la herramienta activa
+robot.setPoseTool(robot.PoseTool())
+
+# Ajustes de velocidad y blending
+robot.setSpeed(300)   # mm/s - Ajusta según necesites
+robot.setRounding(5)  # blending (radio de curvatura)
+
+robot.Pause(2)  # Espera 2 segundos
+
+robot.MoveJ([0, 0, 0, 0, 0, 0])
+
+#------------------------------------------------
+# 3) Definiciones de letras y parámetros de escritura
+#------------------------------------------------
+
+# Letras definidas en matriz 3x3
+letras = {
+    'C': [[2,2],[0,2],[0,0],[2,0]],
+    'A': [[0,0],[1,2],[2,0]],
+    'M': [[0,0],[0,2],[1,1],[2,2],[2,0]],
+    'N': [[0,0],[0,2],[2,0],[2,2]],
+    'I': [[1,0],[1,2]],
+    'O': [[0,0],[2,0],[2,2],[0,2],[0,0]],
+    'G': [[2,2],[0,2],[0,0],[2,0],[2,1],[0,1]],
+    'B': [[0,0],[0,2],[2,2],[2,1],[0,1],[2,1],[2,0],[0,0]],
+}
+
+# Lista de nombres a escribir
+nombres = ["cami", "gabo", "nico"]
+
+# Parámetros de dibujo
+escala = 30             # tamaño de cada paso en mm
+espacio_letra = 70      # espacio entre letras
+espacio_linea = 70      # espacio entre líneas
+z_surface = 0           # altura para escribir
+z_safe = -50             # altura segura
+
+#------------------------------------------------
+# 4) Función para mover el robot a dibujar una letra
+#------------------------------------------------
+def dibujar_letra(letra_coords, offset_x, offset_y):
+    first = True
+    last_pose = None  # Guardaremos la última posición
+    
+    for punto in letra_coords:
+        x = offset_x + punto[0] * escala
+        y = offset_y + (2 - punto[1]) * escala  # invierte eje Y
+
+        pose = transl(x, y, z_surface)
+        pose_arriba = transl(x, y, z_surface + z_safe)
+
+        if first:
+            robot.MoveJ(pose_arriba)
+            robot.MoveL(pose)
+            first = False
+        else:
+            robot.MoveL(pose)
+        
+        last_pose = pose  # Actualizamos última posición
+    
+    robot.MoveL(transl(last_pose[0,3], last_pose[1,3], z_surface + z_safe))
+
+    return last_pose
+
+
+#------------------------------------------------
+# 5) Escribir los nombres letra por letra
+#------------------------------------------------
+
+# Escribir nombres en horizontal, uno por línea
+ultima_pos = None
+
+for row_index, nombre in enumerate(nombres):
+    for col_index, letra in enumerate(nombre.upper()):
+        if letra not in letras:
+            continue
+
+        offset_x = col_index * espacio_letra - 50  # ajustes
+        offset_y = -row_index * espacio_linea
+
+        ultima_pos = dibujar_letra(letras[letra], offset_x, offset_y)
+
+print("¡Nombres escritos con éxito!")
+
+# Finalmente, subir en Z seguro desde la última posición
+#if ultima_pos is not None:
+#    x = ultima_pos[0,3]
+#    y = ultima_pos[1,3]
+#    robot.MoveL(transl(x, y, z_surface + z_safe))
 
 
 
-![Trayectoria_Completa](https://github.com/user-attachments/assets/6e9e78b0-2a3d-4f59-944b-76bb66e2fcb5)
+#------------------------------------------------
+# 6) Parámetros de la figura (rosa polar)
+#------------------------------------------------
+num_points = 50       # Cuántos puntos muestreamos (mayor = más suave)
+A = 50               # Amplitud (300 mm = radio máximo)
+k = 5                  # Parámetro de la rosa (pétalos). Si es impar, habrá k pétalos; si es par, 2k
+z_surface = 0          # Z=0 en el plano del frame
+z_safe = -50            # Altura segura para aproximarse y salir
+
+#------------------------------------------------
+# 7) Movimiento al centro en altura segura
+#------------------------------------------------
+# El centro de la rosa (r=0) corresponde a x=0, y=0
+robot.MoveJ(transl(0, 0, z_surface + z_safe))
+
+# Bajamos a la "superficie" (Z=0)
+robot.MoveL(transl(0, 0, z_surface))
+
+#------------------------------------------------
+# 8) Dibujar la rosa polar
+#    r = A * sin(k*theta)
+#    x = r*cos(theta), y = r*sin(theta)
+#------------------------------------------------
+# Recorremos theta de 0 a 2*pi (una vuelta completa)
+full_turn = 2*math.pi
+
+for i in range(num_points+1):
+    # Fracción entre 0 y 1
+    t = i / num_points
+    
+    # Ángulo actual
+    theta = full_turn * t
+
+    # Calculamos r
+    r = A * (2 + math.sin(4 * theta))
+
+    # Convertimos a coordenadas Cartesianas X, Y
+    x = r * math.cos(theta) + 375
+    y = r * math.sin(theta) 
+
+    # Movemos linealmente (MoveL) en el plano del Frame
+    robot.MoveL(transl(x, y, z_surface))
+
+# Al terminar, subimos de nuevo para no chocar
+robot.MoveL(transl(x, y, z_surface + z_safe))
+
+print(f"¡Figura (rosa polar) completada en el frame '{frame_name}'!")
+
+
+robot.Pause(2)  # Espera 2 segundos
+
+robot.MoveJ([0,0,0,0,0,0])
+```
+### Trayectoriaas realizadas
+En color naranja se muestran los "dibujos" solicitados para el proyecto.
+<p align="center">
+  <img width="800" alt="Diagrama" src="https://github.com/user-attachments/assets/6e9e78b0-2a3d-4f59-944b-76bb66e2fcb5" />
+</p>
+
+## Simulacion de RoboDK
+La simulacion de las trayectorias realizados con el codigo previamente mostrado se presenta mediante un video.
+
+## Implementacion en Motoman MH6
+La implementacion de las trayectorias realizados en la simulacion previamente mostrado se presenta mediante un video.
+
+
+
 
 
 
