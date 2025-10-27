@@ -390,7 +390,7 @@ print(f"Figura completada en el frame '{frame_name}'.")
 
 ## 🆚 RoboDK vs RobotStudio
 <p align="center">
-   <img width="200" alt="Robodk" src="https://github.com/user-attachments/assets/b88f16c8-7c25-4e7e-9710-28e4feb8e91f" />
+   <img width="600" alt="Robodk" src="https://github.com/user-attachments/assets/22d2c19c-e174-446e-b82c-8880e2228238" />
    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
   <img width="300" height="350" alt="Abb" src="https://github.com/user-attachments/assets/a3818a72-491e-48e0-b395-98417e7148f2" />
 </p>
