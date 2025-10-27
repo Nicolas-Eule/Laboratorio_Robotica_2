@@ -523,15 +523,14 @@ RoboDK maximiza versatilidad y automatización multi‑marca con OLP ágil y API
 
 ---
 
-## 🧭 Trayectoria polar (RoboDK)
+## 🧭 Trayectoria polar y Nombres en RoboDK 
+### Flujograma de las trayectorias 
+### Plano de planta 
+### Codigo Python de trayectorias 
+### Simulacion de RoboDK
+### Implementacion en Motoman MH6
 
-1. Crear **estación** con el Motoman MH6 y la herramienta de dibujo.  
-2. Definir **workobject**/marco en el plano de trabajo.  
-3. Generar puntos **(r, θ)** de una trayectoria polar (p. ej., espiral, cardioide; referencia didáctica arriba).  
-4. Convertir a **(x, y)** y cargar como **Targets**; usar **MoveL/MoveC** con zonas/velocidades.  
-5. **Simular y grabar** la ejecución.  
-6. **Conectar al robot** y ejecutar **en línea**; registrar **video**.  
-7. **Incluir nombres** de integrantes en la sección de trayectoria polar (overlay, título o geometría).
+
 
 ---
 
