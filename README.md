@@ -742,8 +742,7 @@ La implementacion de las trayectorias realizados en la simulacion que se present
   </a>
 </p>
 
-###  Descripción (simulación)
-**Simulación en RoboDK** de la célula con **Motoman MH6**: 
+###  **Simulación en RoboDK** de la célula con **Motoman MH6**: 
 - Configuración de robot, herramienta (TCP) y marcos de trabajo. 
 - Importación del CAD y generación de trayectorias sobre superficie con control de orientación.
 - Verificación de alcances, singularidades, colisiones y ajustes de velocidades/blends.
@@ -765,8 +764,7 @@ La implementacion de las trayectorias realizados en la simulacion que se present
   </a>
 </p>
 
-###  Descripción (práctica)
-**Ejecución real en laboratorio** con **Motoman MH6**:
+###  **Ejecución real en laboratorio** con **Motoman MH6**:
 - Secuencia desde HOME, verificación de TCP/base y carga de programa.
 - Disparo de rutina, seguimiento de trayectorias planificadas y supervisión de I/O.
 - Control de velocidad y suavizado, retorno a HOME y fin de ciclo.
