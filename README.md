@@ -179,6 +179,107 @@ Este repositorio implementa el **Laboratorio No. 2** de *Robótica Industrial 
    - Guarda posiciones como **Targets** con nombres semánticos (APROX_, PUNTO_, RETIRO_). Documenta marco y herramienta usados.
    - Comprueba límites articulares y de velocidad antes de ejecutar en AUTO.
 
+**Proceso detallado de que procedicimento realiar en el Motoman MH6**
+1. Energizamos los tres breakers marcados con el nombre de "MOTOMAN".
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/07030f27-3acd-4a4a-b286-cd1c193e0992" width="40%">
+  <br>
+  <em>Tomado de video explicativo.</em>
+</p>
+
+2. Energizamos el totalizador que se encuentra en el cofre totalizador. 
+<p align="center">
+<img src="https://github.com/user-attachments/assets/e6b5eabe-85ad-43c1-97e3-77457f9b95f9" width="40%" />
+  <br>
+  <em>Tomado de video explicativo.</em>
+</p>
+
+3. Giramos la perilla en la puerta del controlador para energizar la unidad de control DX100.
+<p align="center">
+<img src="https://github.com/user-attachments/assets/03ebd177-d8b0-416b-a9ad-fe63b538c6ed"  width="30%" />
+  <br>
+  <em>Tomado de <a href="https://people.wallawalla.edu/~ralph.stirling/classes/engr480/docs/Motoman/dx100_155494-1CD.pdf">Manual DX100</a>.</em>
+</p>
+
+4. Desenrollamos el cable del TeachPendant, cuidando no pisarlo, lo pasamos por detrás del cuello tal como lo indica el monitor.
+
+5. En el TeachPendant, se gira el hongo (Emergency stop button) en sentido horario, quitando así la parada de emergencia. 
+
+<p align="center">
+<img src="https://github.com/user-attachments/assets/85b7f7c7-3f2f-40e7-a099-97ad934a6730"   width="30%" />
+  <br>
+  <em>Tomado de <a href="https://people.wallawalla.edu/~ralph.stirling/classes/engr480/docs/Motoman/dx100_155494-1CD.pdf">Manual DX100</a>.</em>
+</p>
+
+6. Con el selector de modo (Mode Switch) y la llave, se escoge el modo "teach".
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/8592d4e3-1637-4092-9eae-c2d20834309d"  width="15%" />
+  <br>
+  <em>Tomado de: Presentación Fundamentos de Robótica industrial.</em>
+</p>
+
+7. En el menú del TeachPendant se escoge "robot".
+
+8. Para habilitar el robot y permitir que reciba instrucciones y las ejecute habilitamos los servos con el botón "SERVO ON READY", la luz se encenderá cuando se presione el botón de hombre muerto.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/0e49e4a7-5620-4c24-9137-66a602f25998"  width="30%" />
+  <br>
+   <em>Tomado de <a href="https://people.wallawalla.edu/~ralph.stirling/classes/engr480/docs/Motoman/dx100_155494-1CD.pdf">Manual DX100</a>.</em>
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/f5d66ac8-ff94-4257-8998-dfa2eb2c1c0e"  width="30%" />
+  <br>
+   <em>Tomado de <a   href="https://people.wallawalla.edu/~ralph.stirling/classes/engr480/docs/Motoman/dx100_155494-1CD.pdf">Manual DX100</a>.</em>
+</p>
+
+9. Seleccionamos la velocidad FAST o SLOW para el modo manual. El nivel de velocidad escogido corresponderá al icono que se observa en la parte superior de la pantalla:
+
+<p align="center">
+  <img   src="https://github.com/user-attachments/assets/1c62ef8a-cea3-43ca-98ae-e4cc6c85b928" width="30%" />
+  <br>
+   <em>Tomado de: Presentación Fundamentos de Robótica industrial.</em>
+</p>
+
+
+10. El botón para la selección de modo de movimiento es el botón COORD, según el modo de movimiento, se verá en la parte superior de la pantalla uno de los siguientes iconos:
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/f0095fd0-997c-4e9f-beda-3a63c37f9b3e" width="30%" />
+  <br>
+   <em>Tomado de: Presentación Fundamentos de Robótica industrial.</em>
+</p>
+
+11. En el modo de movimiento en el espacio de las articulaciones se verá este icono en la parte superior de la pantalla:
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/78c3c575-b0a0-4f70-9aca-faf013e8af63" width="20%" />
+  <br>
+   <em>Tomado de: Presentación Fundamentos de Robótica industrial.</em>
+</p>
+
+Los botones correspondientes a cada articulación se observan a continuación, donde los botones con la letra X Y o Z corresponderán al modo movimiento en el espacio de trabajo, mientras que S L U R B o T corresponderán al movimiento en el espacio de articulación:
+
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/f8318fa4-3f7a-4e89-849d-83f7369c755f" width="20%" />
+  <br>
+   <em>Tomado de: Presentación Fundamentos de Robótica industrial.</em>
+</p>
+
+12. Si se trata del modo de movimiento en el espacio de trabajo se verá este icono en la parte superior de la pantalla:
+
+<p align="center">
+  <img alt="Pasted image 20251021203435" src="https://github.com/user-attachments/assets/adc2ae86-152d-4406-b958-cc27bf91c2bd"   width="20%" />
+  <br>
+   <em>Tomado de: Presentación Fundamentos de Robótica industrial.</em>
+</p>
+
+
+
+
 
 ## Niveles de velocidad para enseñanza y cómo identificarlos en interfaz
 
