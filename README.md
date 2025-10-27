@@ -548,7 +548,7 @@ Como visualizacion auxiliar se muestra un plano lateral del ecossistema en RoboD
 ## Codigo Python de trayectorias 
 A continuacion se presenta el codigo que se desarrollo para realizar las trayectorias de lo nombres de integrantes y figura en forma polar.
 ```python
-vfrom robodk.robolink import *    # API para comunicarte con RoboDK
+from robodk.robolink import *    # API para comunicarte con RoboDK
 from robodk.robomath import *    # Funciones matemáticas
 import math
 
