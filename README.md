@@ -725,9 +725,51 @@ En color naranja se muestran los "dibujos" solicitados para el proyecto.
 La simulacion de las trayectorias realizados con el codigo previamente mostrado se presenta mediante un video.
 
 ## Implementacion en Motoman MH6
-La implementacion de las trayectorias realizados en la simulacion previamente mostrado se presenta mediante un video.
+La implementacion de las trayectorias realizados en la simulacion que se presenta mediante un video.
 
 
+##  Video de la simulación (RoboDK, Motoman MH6)
+
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=63BwvjuKxpE">
+    <img src="https://img.youtube.com/vi/63BwvjuKxpE/hqdefault.jpg" alt="Ver video de la simulación en RoboDK con Motoman MH6" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=63BwvjuKxpE">
+    <img src="https://img.shields.io/badge/Ver%20en%20YouTube-%F0%9F%94%B4-blue?style=for-the-badge" alt="Ver en YouTube">
+  </a>
+</p>
+
+###  Descripción (simulación)
+**Simulación en RoboDK** de la célula con **Motoman MH6**: 
+- Configuración de robot, herramienta (TCP) y marcos de trabajo. 
+- Importación del CAD y generación de trayectorias sobre superficie con control de orientación.
+- Verificación de alcances, singularidades, colisiones y ajustes de velocidades/blends.
+- Postprocesado para controlador Yaskawa y preparación de ejecución online mediante driver.
+
+---
+
+##  Video de la práctica (Motoman MH6 en laboratorio)
+
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=YzO3Q0nZUzI">
+    <img src="https://img.youtube.com/vi/YzO3Q0nZUzI/hqdefault.jpg" alt="Ver video de la práctica con Motoman MH6" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=YzO3Q0nZUzI">
+    <img src="https://img.shields.io/badge/Ver%20en%20YouTube-%F0%9F%94%B4-red?style=for-the-badge" alt="Ver en YouTube">
+  </a>
+</p>
+
+###  Descripción (práctica)
+**Ejecución real en laboratorio** con **Motoman MH6**:
+- Secuencia desde HOME, verificación de TCP/base y carga de programa.
+- Disparo de rutina, seguimiento de trayectorias planificadas y supervisión de I/O.
+- Control de velocidad y suavizado, retorno a HOME y fin de ciclo.
 
 
 
