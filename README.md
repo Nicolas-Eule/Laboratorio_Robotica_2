@@ -77,38 +77,6 @@ Este repositorio implementa el **Laboratorio No. 2** de *Robótica Industrial 
 
 <!-- ===== FIN BLOQUE ANIMACIONES EQUIPO ===== -->
 
-
-## 4.2 Tareas a desarrollar
-
-1) **Comparar especificaciones técnicas** del **Motoman MH6** y **ABB IRB140** (cuadro comparativo).  
-2) **Describir diferencias** entre **home1** y **home2** del Motoman MH6.  
-3) **Procedimiento y teclas** para movimiento manual del Motoman: por **articulaciones**, cambio a **cartesiano** y **traslaciones/rotaciones** en **X, Y, Z**.  
-4) **Niveles de velocidad** de enseñanza: cómo **cambiar** e **identificar** en la pantalla.  
-5) **Aplicaciones de RoboDK** y **cómo se comunica** con el manipulador (¿qué hace para moverlo?).  
-6) **¿Cómo se comunica RoboDK con el manipulador?** (drivers, conexión IP, sincronización online).  
-7) **Análisis RoboDK vs RobotStudio**: ventajas, limitaciones y usos.  
-8) **Trayectoria polar** en RoboDK: simular, **ejecutar virtualmente** y **ejecutar físicamente** en el Motoman.
-   - Referencia didáctica: https://www.monografias.com/trabajos33/coordenadas-polares/coordenadas-polares  
-9) **Bajo la sección de trayectoria polar**, incluir **nombres de los integrantes** en el dibujo o reporte.
-
----
-
-## 4.3 Requerimientos (entregables)
-
-- **Cuadro comparativo** MH6 vs IRB140 (carga útil, alcance, GDL, repetibilidad, peso, aplicaciones).  
-- **Descripción de home1/home2** (pose de cada articulación y justificación de la “mejor” para el caso).  
-- **Procedimiento detallado de movimientos manuales** (articular ↔ cartesiano; traslaciones/rotaciones X‑Y‑Z).  
-- **Explicación de niveles de velocidad** para enseñanza y cómo identificarlos en interfaz.  
-- **Descripción de funcionalidades de RoboDK** y **método de comunicación** con el Motoman.  
-- **Análisis comparativo RoboDK vs RobotStudio** (ventajas/limitaciones/aplicaciones).  
-- **Diagrama de flujo de acciones** del robot.  
-- **Plano de planta** con ubicación de elementos de la celda.  
-- **Código de RoboDK** (programa + estación *.rdk*) para la **trayectoria polar** (anexo).  
-- **Video de simulación** (RoboDK) y **video de implementación física** (Motoman controlado desde PC).  
-- Los videos **deben iniciar** con la introducción oficial **LabSIR “Intro LabSIR”**.
-
----
-
 ## 📊 Cuadro comparativo (MH6 vs IRB140)
 
 | Característica | Motoman MH6 | ABB IRB140 |
@@ -283,6 +251,7 @@ Los botones correspondientes a cada articulación se observan a continuación, d
 
 ## Niveles de velocidad para enseñanza y cómo identificarlos en interfaz
 
+
 **Conceptos.**
 - **Jog speed (Teach):** velocidad manual al mantener pulsada la tecla. Suele tener niveles/fine-tuning.
 - **Override de reproducción (Play):** porcentaje que escala velocidades de programa cuando “corres” un Job.
@@ -297,6 +266,14 @@ Los botones correspondientes a cada articulación se observan a continuación, d
   1) Ningún eje supera límites ni zonas definidas de seguridad.
   2) En targets de precisión, captura con **Teach Speed baja** y **rotaciones Rx/Ry/Rz finas**.
   3) Repite el movimiento con **Override bajo** y confirma tiempos y clearances.
+
+### Seleccion de velocidad de forma fisica en el Tech Pendant.
+En la imagen continua se muestra cuales son los botones para seleccionar la velocidad de forma manual en el Tech Pendant.
+
+<p align="center">
+  <img width="500" alt="Diagrama" src="https://github.com/user-attachments/assets/4fe46496-607e-4f75-b090-1ae7c6a1f65d" />
+</p>
+
 
 
 ## Funcionalidades de RoboDK y método de comunicación con Motoman (con Python)
