@@ -531,6 +531,9 @@ RoboDK maximiza versatilidad y automatización multi‑marca con OLP ágil y API
 ### Implementacion en Motoman MH6
 
 
+![Trayectoria_Completa](https://github.com/user-attachments/assets/1fe55fce-af4d-4e13-8fcc-37c03f6db54f)
+
+
 
 ---
 
