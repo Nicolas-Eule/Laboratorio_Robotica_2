@@ -525,7 +525,15 @@ RoboDK maximiza versatilidad y automatización multi‑marca con OLP ágil y API
 
 ## 🧭 Trayectoria polar y Nombres en RoboDK 
 ### Flujograma de las trayectorias 
+<p align="center">
+  <img width="397" height="2300" alt="Diagrama" src="https://github.com/user-attachments/assets/b4754bc3-e62c-48e4-bc11-7b8817980d58" />
+</p>
 ### Plano de planta 
+<p align="center">
+![Planta](https://github.com/user-attachments/assets/16f26b22-483d-4d7d-af32-d7808ffc726a)
+   <img width="397" height="2300" alt="Diagrama" src="https://github.com/user-attachments/assets/16f26b22-483d-4d7d-af32-d7808ffc726a" />
+</p>
+</p>
 ### Codigo Python de trayectorias 
 ### Simulacion de RoboDK
 ### Implementacion en Motoman MH6
